@@ -41,14 +41,34 @@ function App() {
       })
     }
   }
+  async function deleteTask(task_id) {
+    try {
+      const response = await fetch(url, {
+        method: 'DELETE',
+        body: JSON.stringify({ task_id: task_id }),
+        headers: { "Content-type": "application/json" }
+      });
+  
+      const data = await response.json();
+      console.log(data)
+      fetchData();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  
+  // Normal function
+  /*
   const deleteTask = (task_id) =>{
     fetch(url, {
       method:'DELETE',
       body: JSON.stringify({task_id: task_id}),
       headers: {"Content-type" : "applications/json"}
     })
+    .then(res => res.json())
+    .then(alert("task deleted"))
     .then(fetchData())
-  }
+  }*/
   
   return (
     <main>
@@ -64,6 +84,7 @@ function App() {
           <th>Task Id</th>
           <th>Title</th>
           <th>Description</th>
+          <th>Status</th>
           <th>Actions</th>
         </tr>
         <tbody>
@@ -73,6 +94,7 @@ function App() {
               <td>{task.task_id}</td>
                 <td>{task.title}</td>
                 <td>{task.description}</td>
+                <td>{task.status}</td>
                 <td>
                   <button onClick={() => deleteTask(task.task_id)}> Delete</button>
                   <button>Update</button>
